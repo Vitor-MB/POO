@@ -1,6 +1,7 @@
 package br.ufc.dc.tp.banco;
 
 import br.ufc.dc.tp.banco.contas.Conta;
+import br.ufc.dc.tp.banco.contas.ContaPoupanca;
 
 public class Banco {
 	private Conta[] contas;
@@ -76,5 +77,21 @@ public class Banco {
 		else {
 			System.out.println("Erro na transferencia");
 		}
+	}
+	
+	public void renderJuros(String numero) {
+		Conta conta = procurar(numero);
+		
+		if(conta != null) {
+			if(conta instanceof ContaPoupanca) {
+				((ContaPoupanca) conta).renderJuros(0.01);
+				System.out.println("Sua Conta Poupança rendeu 1%, seu novo saldo é: R$" + conta.saldo());
+			}
+			else 
+				System.out.println("Essa conta não é poupanca");
+			
+		}
+		else 
+			System.out.println("Conta inválida");
 	}
 }
