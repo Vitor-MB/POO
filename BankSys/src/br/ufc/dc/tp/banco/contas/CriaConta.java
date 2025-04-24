@@ -14,14 +14,23 @@ public class CriaConta {
 		
 		Conta conta2 = new Conta("125");
 		
+		Conta cp = new ContaPoupanca("122");
+		
 		
 		banco.cadastrar(conta1);
 		banco.cadastrar(conta2);
+		banco.cadastrar(cp);
 		
+		/*
 		banco.creditar(conta1.numero(), 100);
 		banco.transferir(conta1.numero(), conta2.numero(), 50);		
 		
 		banco.debitar(conta1.numero(), 90);
+		*/
+		
+		banco.creditar(cp.numero(), 1000);
+		
+		banco.renderJuros(cp.numero());
 		
 		
 		
