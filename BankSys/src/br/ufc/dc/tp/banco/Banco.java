@@ -1,6 +1,7 @@
 package br.ufc.dc.tp.banco;
 
 import br.ufc.dc.tp.banco.contas.Conta;
+import br.ufc.dc.tp.banco.contas.ContaEspecial;
 import br.ufc.dc.tp.banco.contas.ContaPoupanca;
 
 public class Banco {
@@ -94,4 +95,19 @@ public class Banco {
 		else 
 			System.out.println("Conta inválida");
 	}
+	public void renderBonus(String numero) {
+		Conta c = procurar(numero);
+		
+		if(c != null) {
+			if(c instanceof ContaEspecial) {
+				((ContaEspecial) c).renderBonus();
+			}
+			else 
+				System.out.println("Essa conta não é especial");
+			
+		}
+		else 
+			System.out.println("Conta inválida");
+	}
+		
 }
