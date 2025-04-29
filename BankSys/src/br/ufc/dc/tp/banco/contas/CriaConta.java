@@ -16,7 +16,9 @@ public class CriaConta {
 		
 		Conta cp = new ContaPoupanca("122");
 		
+		Conta ce = new ContaEspecial("127");
 		
+		banco.cadastrar(ce);
 		banco.cadastrar(conta1);
 		banco.cadastrar(conta2);
 		banco.cadastrar(cp);
@@ -28,9 +30,11 @@ public class CriaConta {
 		banco.debitar(conta1.numero(), 90);
 		*/
 		
-		banco.creditar(cp.numero(), 1000);
 		
-		banco.renderJuros(cp.numero());
+		banco.creditar(ce.numero(), 100);
+		banco.creditar(ce.numero(), 1000);
+		
+		
 		
 		
 		
