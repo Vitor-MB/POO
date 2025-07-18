@@ -11,28 +11,41 @@ public class Vestuario {
 
 	public static void main(String[] args) {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-	
+		
+		
+		//Possibilidade do usuario criar lojas(Usar um hashmao pra armazenar ai cadastra a loja de origem de acordo com esses caras
+		
 		BancoItens Itens = new BancoItens();
 		BancoEmprestados Emprestados = new BancoEmprestados();
 		
 		
 		Item item = new SupInterno("Camisa Ceará", "Riachuello", "Azul", ConservacaoEnum.NOVA, new GregorianCalendar(2025, GregorianCalendar.JULY, 01), TamanhoEnum.M, "Esportivo");
-		item.resgistrarEmprestimoItem(Emprestados);
-		Itens.AdicionarItem(item);		
+		Itens.CadastrarItem(item);		
 		
-		
-		
-		Itens.AdicionarItem(new SupExterno("Casaco Adidas", "Adidas", "Preto", ConservacaoEnum.RUIM, new GregorianCalendar(2025, GregorianCalendar.JUNE, 25), TamanhoEnum.M, "Casual"));
-		
-		
+		Itens.CadastrarItem(new SupExterno("Casaco Adidas", "Adidas", "Preto", ConservacaoEnum.RUIM, new GregorianCalendar(2025, GregorianCalendar.JUNE, 25), TamanhoEnum.M, "Casual"));
 		
 		Item A = Itens.getItem("Casaco Adidas");
 		
-		IEmprestavel e = (IEmprestavel) item;
+		Itens.CadastrarItem(new Intimo("Cueca", "Adidas", "Preto", ConservacaoEnum.BOA, new GregorianCalendar(2025, GregorianCalendar.JULY, 12), TamanhoEnum.M));
 		
-		System.out.println(item.getID());
+		Item i = Itens.getItem("Cueca");
 		
 		
+		item.Emprestar(Emprestados, 15);
+		
+		
+		Itens.ListarItens();
+		i.Editar(Itens, new Intimo("Cueca", "CK", "Azul", ConservacaoEnum.RUIM, new GregorianCalendar(2025, GregorianCalendar.JULY, 12), TamanhoEnum.PP));
+		item.Editar(Itens, new SupInterno("Camisa Ceará", "Vozão", "Preta", ConservacaoEnum.BOA, new GregorianCalendar(2025, GregorianCalendar.JULY, 01), TamanhoEnum.M, "Esportivo"));
+		Itens.ListarItens();
+		
+		Item B = new SupInterno("Camisa Basica", "Riachuello", "Preta", ConservacaoEnum.NOVA, new GregorianCalendar(2025, GregorianCalendar.JULY, 01), TamanhoEnum.M, "Casual");
+		B.Emprestar(Emprestados, 15);
+		
+		Emprestados.ListarEmprestados();
+		Itens.ListarItens();
+		
+
 		
 
 	}
