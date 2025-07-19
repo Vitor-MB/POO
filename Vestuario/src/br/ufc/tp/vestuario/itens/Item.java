@@ -3,6 +3,10 @@ package br.ufc.tp.vestuario.itens;
 import java.util.GregorianCalendar;
 
 import br.ufc.tp.vestuario.*;
+import br.ufc.tp.vestuario.excecoes.JaEmprestadoException;
+import br.ufc.tp.vestuario.excecoes.NaoEmprestadoException;
+import br.ufc.tp.vestuario.excecoes.NaoEmprestavelException;
+import br.ufc.tp.vestuario.excecoes.NaoLavavelException;
 
 public abstract class Item {
 
@@ -37,38 +41,75 @@ public abstract class Item {
 	public ConservacaoEnum getConservacao() {
 		return Conservacao;
 	}
-	public Boolean isEmprestavel() {
+	public boolean isEmprestavel() {
 		return this instanceof IEmprestavel;
+	}
+	public boolean isLavavel() {
+		return this instanceof ILavavel;
+	}
+	
+	public void registrarUso() {
+		this.qtdUsos += 1;
+	}
+	
+	//LAVAR
+	public void Lavar() throws NaoLavavelException {
+		if(isLavavel()) {
+			ILavavel l = ((ILavavel) this);
+			l.lavar();
+		}else 
+			throw new NaoLavavelException(this.id);
+		
+	}
+	
+	
+	public GregorianCalendar getUltimaLavagem() throws NaoLavavelException{
+		if(isLavavel()) {
+			ILavavel l = ((ILavavel) this);
+			return l.getUltimaLavagem();
+		}else {
+			throw new NaoLavavelException(this.id);
+		}
 	}
 	
 	//EMPRESTAR
-	public void Emprestar(BancoEmprestados Emprestados, int qtdDias) {
+	public void Emprestar(BancoEmprestados Emprestados, int qtdDias) throws NaoEmprestavelException, JaEmprestadoException{
 		if(isEmprestavel()) {
 			IEmprestavel e = ((IEmprestavel) this);
 			e.registrarEmprestimo(Emprestados, qtdDias);
 		}
 		else {
-			System.out.println("Esse item não é Emprestável!\n");
+			throw new NaoEmprestavelException();
 		}
 	}
-	public void Emprestar(BancoEmprestados Emprestados, GregorianCalendar Deadline) {
+	public void Emprestar(BancoEmprestados Emprestados, GregorianCalendar Deadline) throws NaoEmprestavelException, JaEmprestadoException {
 		if(isEmprestavel()) {
 			IEmprestavel e = ((IEmprestavel) this);
 			e.registrarEmprestimo(Emprestados, Deadline);
 		}
 		else {
-			System.out.println("Esse item não é Emprestável!\n");
+			throw new NaoEmprestavelException();
 		}
 	}
 	
-	public void Devolucao(BancoEmprestados Emprestados) {
+	public void Devolucao(BancoEmprestados Emprestados) throws NaoEmprestavelException, NaoEmprestadoException {
 		if(isEmprestavel()) {
 			IEmprestavel e = ((IEmprestavel) this);
 			if(e.registrarDevolucao(Emprestados)) 
 				System.out.println(this.getID() + " Devolvido");
 		}
 		else {
-			System.out.println("Esse item não é Emprestável!\n");
+			throw new NaoEmprestavelException();
+		}
+	}
+	
+	public Boolean isEmprestado() {
+		if(isEmprestavel()) {
+			IEmprestavel e = ((IEmprestavel) this);
+			return e.isEmprestado();
+		}
+		else {
+			return false;
 		}
 	}
 		
@@ -77,8 +118,7 @@ public abstract class Item {
 	public void Editar(BancoItens Itens, Item editado) {
 		//Verifica se sao da mesma classe
 		if (!this.getClass().equals(editado.getClass())) {
-	        System.out.println("Itens de tipos diferentes. Não é possível editar.");
-	        return;
+	        throw new IllegalArgumentException("Item de Classes diferentes");
 	    }
 		
 		if(this instanceof Roupa) {

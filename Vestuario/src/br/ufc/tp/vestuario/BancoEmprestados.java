@@ -1,5 +1,7 @@
 package br.ufc.tp.vestuario;
 
+import br.ufc.tp.vestuario.excecoes.JaEmprestadoException;
+import br.ufc.tp.vestuario.excecoes.NaoEmprestadoException;
 import br.ufc.tp.vestuario.itens.IEmprestavel;
 import br.ufc.tp.vestuario.itens.Item;
 
@@ -16,12 +18,11 @@ public class BancoEmprestados {
 		Emprestados = new ArrayList<IEmprestavel>();
 	}
 	
-	public Boolean adicionar(Item i) {
+	public boolean adicionar(Item i) throws JaEmprestadoException {
 		IEmprestavel e = (IEmprestavel) i;
 		
 		if(Emprestados.contains(e)) {
-			System.out.println(i.getID() + " já está registrado no Banco de emprestimos");
-			return false;
+			throw new JaEmprestadoException(i.getID());
 		}
 		else {
 			Emprestados.add(e);
@@ -30,19 +31,22 @@ public class BancoEmprestados {
 		}
 	}
 	
-	public Boolean remover(Item i) {
+	public boolean remover(Item i) throws NaoEmprestadoException {
 		IEmprestavel e = (IEmprestavel) i;
 		if(Emprestados.contains(e)) {
 			System.out.println(i.getID() +  " removido do Banco de Emprestimos!");
 			Emprestados.remove(e);
 			return true;
 		}else {
-			System.out.println(i.getID() + " não está no Banco de emprestimo");
-			return false;
+			throw new NaoEmprestadoException(i.getID());
 		}
 	}	
 	
-	public void ListarEmprestados() {
+	public void ListarEmprestados() throws NaoEmprestadoException {
+		 if (Emprestados.isEmpty()) {
+		        throw new NaoEmprestadoException("");
+		    }
+		 
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		System.out.println("\nLista de Itens Emprestados:");
 		for(IEmprestavel e : Emprestados) {

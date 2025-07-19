@@ -12,7 +12,30 @@ public class BancoLooks {
 	}
 	
 	public boolean salvar(Look l) {
-		Looks.add(l);
+		if(l.isLookValido()) {
+			if(!Looks.contains(l)) {
+				System.out.println("Look salvo");
+				Looks.add(l);
+				return true;
+			}else {
+				System.out.println("Esse look já existe");
+				return false;
+			}
+		}else{
+			System.out.println("Look inválido!");
+			return false;
+		}
+	}
+	
+	public boolean deletar(Look l) {
+		if(Looks.contains(l)) {
+			Looks.remove(l);
+			System.out.println("Look removido!");
+			return true;
+		}else {
+			System.out.println("Look não existe");
+			return false;
+		}
 	}
 
 }
