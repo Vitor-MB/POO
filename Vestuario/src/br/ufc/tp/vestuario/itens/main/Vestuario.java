@@ -56,10 +56,10 @@ public class Vestuario {
 			System.err.println("Não foi possével usar esse Look and Feel:" + e);
 		}
 			
-		 SwingUtilities.invokeLater(() -> {
-		        JanelaPrincipal janela = new JanelaPrincipal("Minha Janela");
-		        // Observação: dentro do construtor de JanelaPrincipal já há setVisible(true)
-		    });	
+		SwingUtilities.invokeLater(() -> {
+		        JanelaPrincipal janela = new JanelaPrincipal();
+		        
+		});	
 
 		
 	

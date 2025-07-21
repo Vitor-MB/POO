@@ -7,8 +7,8 @@ import java.awt.event.WindowEvent;
 
 public class JanelaPrincipal extends JFrame{
 
-	public JanelaPrincipal(String titulo) {
-        super(titulo);
+	public JanelaPrincipal() {
+        super("Vestuario");
         
         MeuOuvinte ouvinte = new MeuOuvinte();
         
@@ -26,14 +26,27 @@ public class JanelaPrincipal extends JFrame{
         JButton procurar = new JButton("PROCURAR");
         JButton emprestados = new JButton("EMPREESTADOS");
         
-        ImageIcon camisa = new ImageIcon(getClass().getResource("/camisa.png"));
-        JLabel ImagemCamisa = new JLabel(camisa);
+        //Animação de passar o mouse em cima nos botões
+        cadastrar.addMouseListener(new MouseEmCimaListener());
+        estatisticas.addMouseListener(new MouseEmCimaListener());
+        procurar.addMouseListener(new MouseEmCimaListener());
+        emprestados.addMouseListener(new MouseEmCimaListener());
         
-        Image camisaredimensionada = ImagemCamisa.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-        ImagemCamisa.setBounds(840, 510, 300, 300);
+        //Mudar a tela
+        cadastrar.addActionListener(new CadastrarListener(this));
+        
+        Image camisa = new ImageIcon(this.getClass().getResource("/camisaB.png")).getImage();
+        Image camisaR = camisa.getScaledInstance(300, 300, Image.SCALE_SMOOTH); // tamanho da imagem
+        
+        JLabel ImagemCamisa = new JLabel(new ImageIcon(camisaR));
+        
+
+        
+        //Image camisaredimensionada = ImagemCamisa.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        ImagemCamisa.setBounds(840, 160, 350, 300);
         
         Image adicionar = new ImageIcon(this.getClass().getResource("/b_adicionar.png")).getImage();
-        Image redimensionada = adicionar.getScaledInstance(70, 70, Image.SCALE_SMOOTH); // tamanho da imagem
+        Image redimensionada = adicionar.getScaledInstance(75, 75, Image.SCALE_SMOOTH); // tamanho da imagem
         cadastrar.setIcon(new ImageIcon(redimensionada));
         
         pane.setLayout(null);
@@ -44,6 +57,7 @@ public class JanelaPrincipal extends JFrame{
         cadastrar.setFocusPainted(false);                  // Remove o contorno de foco
         cadastrar.setBorderPainted(false);                 // Remove a borda
         cadastrar.setContentAreaFilled(true);
+        cadastrar.setFont(new Font("Arial", Font.BOLD, 16));
         
         estatisticas.setBounds(30, 210, 300, 150);
         estatisticas.setBackground(Color.decode("#071230"));  // Cor de fundo
@@ -51,6 +65,7 @@ public class JanelaPrincipal extends JFrame{
         estatisticas.setFocusPainted(false);                  // Remove o contorno de foco
         estatisticas.setBorderPainted(false);                 // Remove a borda
         estatisticas.setContentAreaFilled(true);
+        estatisticas.setFont(new Font("Arial", Font.BOLD, 16));
         
         procurar.setBounds(370, 40, 300, 150);
         procurar.setBackground(Color.decode("#071230"));  // Cor de fundo
@@ -58,6 +73,7 @@ public class JanelaPrincipal extends JFrame{
         procurar.setFocusPainted(false);                  // Remove o contorno de foco
         procurar.setBorderPainted(false);                 // Remove a borda
         procurar.setContentAreaFilled(true);
+        procurar.setFont(new Font("Arial", Font.BOLD, 16));
         
         emprestados.setBounds(370, 210, 300, 150);
         emprestados.setBackground(Color.decode("#071230"));  // Cor de fundo
@@ -65,13 +81,14 @@ public class JanelaPrincipal extends JFrame{
         emprestados.setFocusPainted(false);                  // Remove o contorno de foco
         emprestados.setBorderPainted(false);                 // Remove a borda
         emprestados.setContentAreaFilled(true);
+        emprestados.setFont(new Font("Arial", Font.BOLD, 16));
         
         pane.add(cadastrar);
         pane.add(estatisticas);
         pane.add(procurar);
         pane.add(emprestados);
         
-        pane.setBounds(30, 100, 800, 400);
+        pane.setBounds(30, 140, 800, 400);
         pane.setBackground(Color.decode("#20273b"));
         
         add(ImagemCamisa);
